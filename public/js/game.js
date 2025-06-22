@@ -72,6 +72,11 @@ class GitHubSpaceInvaders {
                 });
             });
 
+            const hasRealCommits = commits.some(c => c.count > 0);
+            if (!hasRealCommits) {
+                return 'no-commits';
+            }
+
             this.createCommitEnemies(commits);
             this.gameRunning = true;
             return true;
@@ -248,7 +253,7 @@ class GitHubSpaceInvaders {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawPlayer();
         this.drawCommits();
-        this.drawBullets(); // tiros por cima dos commits
+        this.drawBullets();
         this.drawExplosions();
         this.drawUI();
     }
@@ -323,53 +328,50 @@ class GitHubSpaceInvaders {
 
 const game = new GitHubSpaceInvaders();
 
-const usernameInput = document.getElementById('modalUsername');
-const username = usernameInput.value.trim();
+function handleGameLoadResult(success, username) {
+    if (success === true) {
+        document.getElementById('modalTitle').textContent = 'All set!';
+        document.getElementById('modalMessage').textContent = `🎮 Data for ${username} loaded! Use ← → and SPACE to play!`;
+    } else if (success === 'no-commits') {
+        document.getElementById('modalTitle').textContent = 'No commits';
+        document.getElementById('modalMessage').textContent = `👻 User "${username}" has no visible contributions.`;
+        document.getElementById('gameModal').classList.add('visible');
+    } else {
+        document.getElementById('modalTitle').textContent = 'Error';
+        document.getElementById('modalMessage').textContent = '❌ Could not load data from GitHub.';
+        document.getElementById('gameModal').classList.add('visible');
+    }
+}
 
-document.getElementById('playerName').textContent = `User: ${username}`;
 
 function startGameFromModal() {
-  const username = document.getElementById('modalUsername').value.trim();
-  if (!username) {
-    alert('Enter a username!');
-    return;
-  }
-
-  document.getElementById('playerName').textContent = `User: ${username}`;
-  document.getElementById('gameModal').classList.remove('visible');
-  game.reset();
+    const username = document.getElementById('modalUsername').value.trim();
+    if (!username) {
+        alert('Enter a username!');
+        return;
+    }
+    document.getElementById('playerName').textContent = `User: ${username}`;
+    document.getElementById('gameModal').classList.remove('visible');
+    game.reset();
     game.loadGitHubData(username).then(success => {
-      if (success) {
-        document.getElementById('modalTitle').textContent = 'Tudo pronto!';
-        document.getElementById('modalMessage').textContent = `🎮 Dados de ${username} carregados! Use ← → e ESPAÇO para jogar!`;
-      } else {
-        document.getElementById('modalTitle').textContent = 'Erro';
-        document.getElementById('modalMessage').textContent = '❌ Não foi possível carregar os dados do GitHub.';
-      }
+        handleGameLoadResult(success, username);
     });
-
 }
 
 document.getElementById('modalUsername').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    startGameFromModal();
-  }
+    if (e.key === 'Enter') {
+        startGameFromModal();
+    }
 });
-
 
 document.getElementById('loadButton').addEventListener('click', async () => {
     const username = document.getElementById('username').value.trim();
     if (!username) {
-        showModal('Aviso', 'Enter a username!');
+        showModal('Warning', 'Enter a username!');
         return;
     }
+    document.getElementById('playerName').textContent = `User: ${username}`;
     game.reset();
     const success = await game.loadGitHubData(username);
-    if (success) {
-        document.getElementById('modalTitle').textContent = 'Tudo pronto!';
-        document.getElementById('modalMessage').textContent = `🎮 Dados de ${username} carregados! Use ← → e ESPAÇO para jogar!`;
-    } else {
-        document.getElementById('modalTitle').textContent = 'Erro';
-        document.getElementById('modalMessage').textContent = '❌ Não foi possível carregar os dados do GitHub.';
-    }
+    handleGameLoadResult(success, username);
 });
