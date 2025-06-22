@@ -4,8 +4,10 @@
   "description": "API para buscar contribuições do GitHub via GraphQL",
   "main": "api/contributions.js",
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "vercel dev",
+    "start": "vercel dev"
   },
+  "type": "commonjs",
   "dependencies": {
     "node-fetch": "^2.6.7"
   },
