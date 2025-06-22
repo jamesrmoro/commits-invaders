@@ -291,7 +291,7 @@ class GitHubSpaceInvaders {
             this.ctx.fillStyle = '#c9d1d9';
             this.ctx.font = '24px Arial';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText('Carregue um usuário do GitHub para começar!',
+            this.ctx.fillText('Load a GitHub user to get started!',
                 this.canvas.width / 2, this.canvas.height / 2);
         }
     }
