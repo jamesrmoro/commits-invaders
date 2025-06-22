@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Commits Invaders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <h1>Commits Invaders</h1>
+  <div id="controls">
+    <input type="text" id="username" />
+    <button id="loadButton">Loader</button>
+  </div>
+  <div id="score">Score: 0</div>
+  <div id="playerName"></div>
+  <canvas id="gameCanvas"></canvas>
+  <div id="gameModal" class="modal visible">
+    <div class="modal-box">
+      <h2 id="modalTitle">Welcome Commits Invaders</h2>
+      <p id="modalMessage">Enter your GitHub username to start</p>
+      <input type="text" id="modalUsername" placeholder="e.g., torvalds" style="padding:5px; margin-top: 10px;text-align: center;"><br>
+      <button onclick="startGameFromModal()">Start</button>
+    </div>
+  </div>
+  <div id="mobileWarning">
+    <p>🚫 This game is best played on a desktop. Please switch to a computer!</p>
+  </div>
+  <audio id="shotSound" src="shot.mp3" preload="auto"></audio>
+  <script src="./js/modal.js"></script>
+  <script src="./js/game.js"></script>
+</body>
+</html>
