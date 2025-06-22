@@ -331,7 +331,7 @@ document.getElementById('playerName').textContent = `User: ${username}`;
 function startGameFromModal() {
   const username = document.getElementById('modalUsername').value.trim();
   if (!username) {
-    alert('Digite um nome de usuário!');
+    alert('Enter a username!');
     return;
   }
 
@@ -360,7 +360,7 @@ document.getElementById('modalUsername').addEventListener('keydown', function(e)
 document.getElementById('loadButton').addEventListener('click', async () => {
     const username = document.getElementById('username').value.trim();
     if (!username) {
-        showModal('Aviso', 'Digite um nome de usuário!');
+        showModal('Aviso', 'Enter a username!');
         return;
     }
     game.reset();
